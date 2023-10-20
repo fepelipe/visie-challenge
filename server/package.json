@@ -1,0 +1,27 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "API that manages a list of people",
+  "main": "index.js",
+  "author": "Felipe Fonseca",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "yarn tsc",
+    "start": "node dist/index.js",
+    "dev": "concurrently \"yarn tsc --watch\" \"nodemon -r dotenv/config -q dist/index.js\""
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.6.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/mysql": "^2.15.23",
+    "@types/node": "^17.0.10",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.1",
+    "typescript": "^4.5.5"
+  }
+}
