@@ -46,7 +46,6 @@ router.put("/people/:id", (req, res) => {
     querySelect,
     [name, rg, cpf, birth_date, admission_date, id],
     (result: any) => {
-      console.log(result);
       res.sendStatus(200);
     }
   );

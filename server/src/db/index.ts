@@ -11,7 +11,6 @@ const pool = mysql.createPool({
 export const sqlQuery = (query: string, values: Array<any>, callback: Function) => {
   pool.execute(query, values, function (err, result, fields) {
     if (err) throw err;
-    console.log("here");
     callback(result);
   });
 };
