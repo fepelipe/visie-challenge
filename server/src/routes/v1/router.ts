@@ -28,7 +28,13 @@ router.post("/people/", (req, res) => {
 router.get("/people/", (req, res) => {
   const querySelect = "SELECT id_pessoa, nome, data_admissao FROM pessoas;";
   sqlQuery(querySelect, [], (result: any) => {
-    res.json(result);
+    const people = result.map((person: any) => {
+      return {
+        ...person,
+        data_admissao: person.data_admissao.toISOString().split("T")[0],
+      };
+    });
+    res.json(people);
   });
 });
 
@@ -36,7 +42,13 @@ router.get("/people/:id", (req, res) => {
   const { id } = req.params;
   const querySelect = "SELECT * FROM pessoas WHERE id_pessoa=?;";
   sqlQuery(querySelect, [id], (result: any) => {
-    res.json(result);
+    const person = result[0];
+    const response = {
+      ...person,
+      data_admissao: person.data_admissao.toISOString().split("T")[0],
+      data_nascimento: person.data_nascimento.toISOString().split("T")[0],
+    };
+    res.json(response);
   });
 });
 
