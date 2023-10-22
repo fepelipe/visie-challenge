@@ -1,9 +1,12 @@
 import express from "express";
 import { sqlQuery } from "../../db";
-import { PersonSchema } from "../../db/models";
-import { ConsumeLocation, OrderStatus, Role } from "../../utils/const";
+import cors from "cors";
 
 const router = express.Router();
+
+router.use(cors());
+
+router.options("*", cors());
 
 router.get("/", (req, res) => {
   res.json({ message: "Hello World!" });
