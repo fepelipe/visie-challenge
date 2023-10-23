@@ -1,24 +1,25 @@
 import { Saira, Wix_Madefor_Display } from "next/font/google";
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 const saira = Saira({ subsets: ["latin"] });
 const wix = Wix_Madefor_Display({ subsets: ["latin"] });
 
 export default function Person() {
   const [person, setPerson] = useState(null as any);
+  const router = useRouter();
+  const searchParams = useSearchParams()
+  const id_pessoa = searchParams.get('id');
+
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/people/4")
+    fetch(`http://localhost:8080/api/v1/people/${id_pessoa}`)
       .then((response) => response.json())
       .then((data) => setPerson(data));
-  }, []);
+  }, [id_pessoa]);
 
-  const router = useRouter();
-
-  const params = useParams();
 
   const deletePerson = async () => {
-    await fetch(`http://localhost:8080/api/v1/people/${person.id_pessoa}`, {
+    await fetch(`http://localhost:8080/api/v1/people/${id_pessoa}`, {
       method: "DELETE",
       mode: "cors",
     }).catch((err) => {
@@ -29,7 +30,7 @@ export default function Person() {
   };
 
   const editPerson = () => {
-    router.push("/person/edit");
+    router.push(`/person/edit?id=${id_pessoa}`);
   };
 
   const mainContent = person ? (

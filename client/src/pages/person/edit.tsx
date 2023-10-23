@@ -1,8 +1,7 @@
-import Image from "next/image";
 import { Saira, Wix_Madefor_Display } from "next/font/google";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { type } from "os";
+import { useSearchParams } from "next/navigation";
 const saira = Saira({ subsets: ["latin"] });
 const wix = Wix_Madefor_Display({ subsets: ["latin"] });
 
@@ -14,8 +13,11 @@ export default function PersonEdit() {
   const [birth_date, setBirthDate] = useState("");
   const [admission_date, setAdmissionDate] = useState("");
 
+  const searchParams = useSearchParams()
+  const id_pessoa = searchParams.get('id');
+  
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/people/10")
+    fetch(`http://localhost:8080/api/v1/people/${id_pessoa}`)
       .then((response) => response.json())
       .then((data) => {
         const person = data;
@@ -26,7 +28,7 @@ export default function PersonEdit() {
         setBirthDate(person.data_nascimento);
         setAdmissionDate(person.data_admissao);
       });
-  }, []);
+  }, [id_pessoa]);
 
   const router = useRouter();
 

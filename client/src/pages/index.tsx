@@ -4,6 +4,7 @@ const wix = Wix_Madefor_Display({ subsets: ["latin"] });
 const saira = Saira({ subsets: ["latin"] });
 
 import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
   const [people, setPeople] = useState<any[]>([]);
@@ -16,11 +17,11 @@ export default function Home() {
   const router = useRouter();
 
   const redirectPersonSeeMore = (id_pessoa: number) => {
-    router.push("/person/");
+    router.push(`/person?id=${id_pessoa}`);
   };
 
   const redirectPersonEdit = (id_pessoa: number) => {
-    router.push("/person/edit");
+    router.push(`/person/edit?id=${id_pessoa}`);
   };
 
   const redirectAddPerson = () => {
