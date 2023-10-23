@@ -12,6 +12,8 @@
     "dev": "concurrently \"yarn tsc --watch\" \"nodemon -r dotenv/config -q dist/index.js\""
   },
   "dependencies": {
+    "@types/cors": "^2.8.15",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mysql2": "^3.6.2"

@@ -1,9 +1,12 @@
 import express from "express";
 import { sqlQuery } from "../../db";
-import { PersonSchema } from "../../db/models";
-import { ConsumeLocation, OrderStatus, Role } from "../../utils/const";
+import cors from "cors";
 
 const router = express.Router();
+
+router.use(cors());
+
+router.options("*", cors());
 
 router.get("/", (req, res) => {
   res.json({ message: "Hello World!" });
@@ -25,7 +28,13 @@ router.post("/people/", (req, res) => {
 router.get("/people/", (req, res) => {
   const querySelect = "SELECT id_pessoa, nome, data_admissao FROM pessoas;";
   sqlQuery(querySelect, [], (result: any) => {
-    res.json(result);
+    const people = result.map((person: any) => {
+      return {
+        ...person,
+        data_admissao: person.data_admissao.toISOString().split("T")[0],
+      };
+    });
+    res.json(people);
   });
 });
 
@@ -33,7 +42,13 @@ router.get("/people/:id", (req, res) => {
   const { id } = req.params;
   const querySelect = "SELECT * FROM pessoas WHERE id_pessoa=?;";
   sqlQuery(querySelect, [id], (result: any) => {
-    res.json(result);
+    const person = result[0];
+    const response = {
+      ...person,
+      data_admissao: person.data_admissao.toISOString().split("T")[0],
+      data_nascimento: person.data_nascimento.toISOString().split("T")[0],
+    };
+    res.json(response);
   });
 });
 
@@ -46,7 +61,6 @@ router.put("/people/:id", (req, res) => {
     querySelect,
     [name, rg, cpf, birth_date, admission_date, id],
     (result: any) => {
-      console.log(result);
       res.sendStatus(200);
     }
   );
